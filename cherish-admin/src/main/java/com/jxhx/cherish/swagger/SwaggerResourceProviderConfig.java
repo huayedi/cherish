@@ -4,6 +4,7 @@ package com.jxhx.cherish.swagger;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import springfox.documentation.swagger.web.SwaggerResource;
+import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  **/
 @Component
 @Primary
-public class SwaggerResourceProviderConfig extends SwaggerResourceProvider{
+public class SwaggerResourceProviderConfig implements SwaggerResourcesProvider {
     @Override
     public List<SwaggerResource> get() {
         List resources = new ArrayList<>();
