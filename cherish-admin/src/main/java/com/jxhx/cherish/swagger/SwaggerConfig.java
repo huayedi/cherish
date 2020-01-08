@@ -3,12 +3,14 @@ package com.jxhx.cherish.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -28,27 +30,39 @@ import java.util.List;
 public class SwaggerConfig {
 
     @Bean
-    public Docket createRestApi() {
+    public Docket adminApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("管理端")
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts())
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.jxhx"))
+                .apis(RequestHandlerSelectors.basePackage("com.jxhx.admin"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
+    @Bean
+    public Docket webApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("服务端")
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts())
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.jxhx.web"))
+                .paths(PathSelectors.any())
+                .build();
+    }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
                 .description("更多Spring Boot相关文章请关注：http://jxhxblog.com/")
                 .termsOfServiceUrl("http://jxhxblog.com/")
-                .contact("今昔何昔")
+                .contact(new Contact("今昔何惜", "http://jxhxblog.com", "404489251@qq.com"))
                 .version("1.0")
                 .build();
     }
-
     /**
      * swagger加入全局header 将在ui界面右上角新增token输入界面
      * @return
